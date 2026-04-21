@@ -1,0 +1,35 @@
+﻿@using JobSearcher.Models
+@using Microsoft.AspNetCore.Components.Forms
+<h3>CompanyItem</h3>
+
+<EditForm Model="Company" OnValidSubmit="HandleSubmit">
+
+    <DataAnnotationsValidator/>
+    <InputText @bind-Value="Company.CompanyName"/>
+    <InputSelect @bind-Value="Company.CompanyPosition"/>
+    <InputText @bind-Value="Company.CompanyLocation"/>
+    <InputSelect @bind-Value="Company.CompanyStatus"/>
+    <InputText @bind-Value="Company.CompanyMinorNotes"/>
+    <InputText @bind-Value="Company.CompanyJobLink"/>
+    <InputText @bind-Value="Company.CompanyContactPerson"/>
+    <InputText @bind-Value="Company.CompanyWebsite"/>
+    <InputSelect @bind-Value="Company.CompanyCallOrNot"/>
+
+    <button type="submit">
+        @(Company.Id == 0 ? "create" : "update")
+    </button>
+
+</EditForm>
+
+
+@code {
+    [Parameter] public Company Company { get; set; } = new();
+    [Parameter] public EventCallback<Company> OnValidSubmitCallback { get; set; }
+
+    private async Task HandleSubmit()
+    {
+        await OnValidSubmitCallback.InvokeAsync(Company);
+    }
+
+
+}
