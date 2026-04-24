@@ -1,0 +1,40 @@
+﻿@page "/ShowAllCompanies"
+@using JobSearcher.Models
+@using JobSearcher.Services
+@inject CompanyService CompanyService
+<h3>ShowAllCompanies</h3>
+
+<ul>
+    @foreach (var company in Companies)
+    {
+        <CompanyItem Company="company" OnValidSubmitCallback="HandleUpdate"/>
+        <button @onclick="() => DeleteCompany(company)">Delete</button>
+    }
+</ul>
+
+@code {
+
+    private List<Company> Companies = new();
+
+    private async Task HandleUpdate(Company company)
+    {
+        if (company.Id == 0)
+        {
+            await CompanyService.AddCompany(company);
+        }
+        else
+        {
+            await CompanyService.UpdateCompany(company);
+        }
+
+        Companies = await CompanyService.GetCompanies();
+    }
+
+    private async Task DeleteCompany(Company company)
+    {
+        await CompanyService.RemoveCompany(company);
+        Companies = await CompanyService.GetCompanies();
+    }
+
+
+}
