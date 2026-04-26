@@ -17,7 +17,8 @@ builder.Services.AddScoped<CompanyService>();
 
 var app = builder.Build();
 
-
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 
 // Configure the HTTP request pipeline.

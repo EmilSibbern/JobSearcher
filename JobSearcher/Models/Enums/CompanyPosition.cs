@@ -1,8 +1,15 @@
-﻿namespace JobSearcher.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace JobSearcher.Models.Enums;
 
 public enum CompanyPosition
 {
+    [Display(Name = "It support")]
     ItSupport,
+    [Display(Name = "Infrastructure")]
     Infrastructure,
-    Programming
+    [Display(Name = "Programming")]
+    Programming,
+    [Display(Name = "Cyber Security")]
+    CyberSecurity
 }

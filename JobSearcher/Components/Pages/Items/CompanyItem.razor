@@ -1,11 +1,10 @@
-﻿@using JobSearcher.Models
+@using JobSearcher.Models
 @using JobSearcher.Models.Enums
 @using Microsoft.AspNetCore.Components.Forms
-<h3>CompanyItem</h3>
-
 <EditForm Model="Company" OnValidSubmit="HandleSubmit" FormName="CompanyForm">
 
     <DataAnnotationsValidator/>
+    <ValidationSummary/>
     <InputText @bind-Value="Company.CompanyName" placeholder="Company Name"/>
     <InputSelect @bind-Value="Company.CompanyPosition">
         @foreach (var position in Enum.GetValues<CompanyPosition>())

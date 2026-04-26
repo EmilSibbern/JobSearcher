@@ -1,19 +1,19 @@
-﻿using JobSearcher.Models.Enums;
+using JobSearcher.Models.Enums;
 
 namespace JobSearcher.Models;
 
 public class Company
 {
     public int Id { get; set; }
-    public string? CompanyName { get; set; }
+    public string CompanyName { get; set; } = string.Empty;
     public CompanyPosition CompanyPosition { get; set; }
-    public string? CompanyLocation { get; set; }
-    public DateTime CompanyAppliedDate { get; set; }
+    public string CompanyLocation { get; set; } = string.Empty;
+    public DateTime CompanyAppliedDate { get; set; } = DateTime.UtcNow;
     public CompanyStatus CompanyStatus { get; set; } = CompanyStatus.Interested;
-    public string? CompanyMinorNotes { get; set; }
-    public string? CompanyJobLink { get; set; }
-    public string? CompanyContactPerson { get; set; }
-    public DateTime CompanyTopOfMind { get; set; }
-    public string CompanyWebsite { get; set; }
+    public string CompanyMinorNotes { get; set; } = string.Empty;
+    public string CompanyJobLink { get; set; } = string.Empty;
+    public string CompanyContactPerson { get; set; } = string.Empty;
+    public DateTime CompanyTopOfMind { get; set; } = DateTime.UtcNow;
+    public string CompanyWebsite { get; set; } = string.Empty;
     public CompanyCallOrNot CompanyCallOrNot { get; set; }
 }

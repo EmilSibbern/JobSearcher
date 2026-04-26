@@ -1,11 +1,12 @@
-﻿@page "/ShowAllCompanies"
+@page "/ShowAllCompanies"
 @using JobSearcher.Models
+@using JobSearcher.Components.Pages.Items
 @using JobSearcher.Services
 @inject CompanyService CompanyService
 <h3>ShowAllCompanies</h3>
 
 <ul>
-    @foreach (var company in Companies)
+    @foreach (var company in _companies)
     {
         <CompanyItem Company="company" OnValidSubmitCallback="HandleUpdate"/>
         <button @onclick="() => DeleteCompany(company)">Delete</button>
@@ -14,7 +15,7 @@
 
 @code {
 
-    private List<Company> Companies = new();
+    private List<Company> _companies = new();
 
     private async Task HandleUpdate(Company company)
     {
@@ -27,14 +28,18 @@
             await CompanyService.UpdateCompany(company);
         }
 
-        Companies = await CompanyService.GetCompanies();
+        _companies = await CompanyService.GetCompanies();
     }
 
     private async Task DeleteCompany(Company company)
     {
         await CompanyService.RemoveCompany(company);
-        Companies = await CompanyService.GetCompanies();
+        _companies = await CompanyService.GetCompanies();
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        _companies = await CompanyService.GetCompanies();
+    }
 
 }

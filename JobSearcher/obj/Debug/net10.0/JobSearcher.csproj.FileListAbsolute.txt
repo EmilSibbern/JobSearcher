@@ -351,3 +351,4 @@ C:\Users\SnotDog\Documents\GitHub\JobSearcher\JobSearcher\obj\Debug\net10.0\swae
 C:\Users\SnotDog\Documents\GitHub\JobSearcher\JobSearcher\obj\Debug\net10.0\JobSearc.4836C87E.Up2Date
 C:\Users\SnotDog\Documents\GitHub\JobSearcher\JobSearcher\obj\Debug\net10.0\JobSearcher.genruntimeconfig.cache
 C:\Users\SnotDog\Documents\GitHub\JobSearcher\JobSearcher\obj\Debug\net10.0\ref\JobSearcher.dll
+C:\Users\donat\RiderProjects\JobSearcher\JobSearcher\obj\Debug\net10.0\JobSearcher.sourcelink.json

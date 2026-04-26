@@ -1,0 +1,21 @@
+@page "/CreateCompany"
+@rendermode InteractiveServer
+@using JobSearcher.Models
+@using JobSearcher.Components.Pages.Items
+@using JobSearcher.Services
+<h3>CreateCompany</h3>
+
+<CompanyItem Company="company" OnValidSubmitCallback="CreateCompany"></CompanyItem>
+
+@code {
+
+    [Inject] CompanyService CompanyService { get; set; } = default!;
+
+    private Company company = new();
+
+    public async Task CreateCompany(Company companyitem)
+    {
+        await CompanyService.AddCompany(companyitem);
+    }
+
+}
