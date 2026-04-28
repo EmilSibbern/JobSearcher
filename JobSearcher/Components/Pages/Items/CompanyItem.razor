@@ -1,50 +1,138 @@
 @using JobSearcher.Models
 @using JobSearcher.Models.Enums
 @using Microsoft.AspNetCore.Components.Forms
-<EditForm Model="Company" OnValidSubmit="HandleSubmit" FormName="CompanyForm">
+<tr>
+    @if (_isEditing)
+    {
+        <td>@Company.Id</td>
+        <td>
+            <InputText @bind-Value="_editModel.CompanyName" placeholder="Company Name"/>
+        </td>
 
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-    <InputText @bind-Value="Company.CompanyName" placeholder="Company Name"/>
-    <InputSelect @bind-Value="Company.CompanyPosition">
-        @foreach (var position in Enum.GetValues<CompanyPosition>())
+        <td>
+            <InputSelect @bind-Value="_editModel.CompanyPosition">
+                @foreach (var position in Enum.GetValues<CompanyPosition>())
+                {
+                    <option value="@position">@position</option>
+                }
+            </InputSelect>
+        </td>
+        <td>
+            <InputText @bind-Value="_editModel.CompanyLocation" placeholder="Location"/>
+        </td>
+        <td>
+            <InputSelect @bind-Value="_editModel.CompanyStatus">
+                @foreach (var status in Enum.GetValues<CompanyStatus>())
+                {
+                    <option value="@status">@status</option>
+                }
+            </InputSelect>
+        </td>
+
+        <td>
+            <InputText @bind-Value="_editModel.CompanyMinorNotes" placeholder="Minor notes"/>
+        </td>
+        <td>
+            <InputText @bind-Value="_editModel.CompanyJobLink" placeholder="Job post link"/>
+        </td>
+        <td>
+            <InputText @bind-Value="_editModel.CompanyContactPerson" placeholder="Contact person"/>
+        </td>
+        <td>
+            <InputText @bind-Value="_editModel.CompanyWebsite" placeholder="Website"/>
+        </td>
+
+        <td>
+            <InputSelect @bind-Value="_editModel.CompanyCallOrNot">
+                @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
+                {
+                    <option value="@callOrNot">@callOrNot</option>
+                }
+            </InputSelect>
+        </td>
+
+        <td>
+            <button @onclick="HandleSubmit">Save</button>
+        </td>
+        <td>
+            <button type="button" @onclick="CancelEdit">Cancel</button>
+        </td>
+    }
+    else
+    {
+        <td>@Company.Id</td>
+        <td>@Company.CompanyName</td>
+        <td>@Company.CompanyPosition</td>
+        <td>@Company.CompanyLocation</td>
+        <td>@Company.CompanyStatus</td>
+        <td>@Company.CompanyAppliedDate</td>
+
+        @if (!string.IsNullOrWhiteSpace(Company.CompanyMinorNotes))
         {
-            <option value="@position">@position</option>
+            <td>@Company.CompanyMinorNotes</td>
         }
-    </InputSelect>
-    <InputText @bind-Value="Company.CompanyLocation" placeholder="Location"/>
-    <InputSelect @bind-Value="Company.CompanyStatus">
-        @foreach (var status in Enum.GetValues<CompanyStatus>())
+        else
         {
-            <option value="@status">@status</option>
+            <td>No notes</td>
         }
-    </InputSelect>
-    <InputText @bind-Value="Company.CompanyMinorNotes" placeholder="Minor notes"/>
-    <InputText @bind-Value="Company.CompanyJobLink" placeholder="Job post link"/>
-    <InputText @bind-Value="Company.CompanyContactPerson" placeholder="Contact person"/>
-    <InputText @bind-Value="Company.CompanyWebsite" placeholder="website"/>
-    <InputSelect @bind-Value="Company.CompanyCallOrNot">
-        @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
-        {
-            <option value="@callOrNot">@callOrNot</option>
-        }
-    </InputSelect>
 
-    <button type="submit">
-        @(Company.Id == 0 ? "create" : "update")
-    </button>
-
-</EditForm>
-
+        <td><a href="@Company.CompanyJobLink">Job link</a></td>
+        <td>@Company.CompanyContactPerson</td>
+        <td>@Company.CompanyTopOfMind</td>
+        <td><a href="@Company.CompanyWebsite">Company Website</a></td>
+        <td>@Company.CompanyCallOrNot</td>
+        <td>
+            <button @onclick="StartEdit">Edit</button>
+        </td>
+        <td>
+            <button @onclick="() => OnDeleteCallback.InvokeAsync(Company)">Delete</button>
+        </td>
+    }
+</tr>
 
 @code {
     [Parameter] public Company Company { get; set; } = new();
     [Parameter] public EventCallback<Company> OnValidSubmitCallback { get; set; }
+    [Parameter] public EventCallback<Company> OnDeleteCallback { get; set; }
+
+    private bool _isEditing = false;
+    private Company _editModel = new();
+
+    protected override void OnParametersSet()
+    {
+        // Always sync edit model with incoming data
+        _editModel = new Company(Company);
+    }
+
+    private void StartEdit()
+    {
+        _isEditing = true;
+    }
+
+    private void CancelEdit()
+    {
+        _isEditing = false;
+
+        // Reset changes
+        _editModel = new Company(Company);
+    }
 
     private async Task HandleSubmit()
     {
+        // Copy edited values back to original
+        Company.CompanyName = _editModel.CompanyName;
+        Company.CompanyPosition = _editModel.CompanyPosition;
+        Company.CompanyLocation = _editModel.CompanyLocation;
+        Company.CompanyStatus = _editModel.CompanyStatus;
+        Company.CompanyMinorNotes = _editModel.CompanyMinorNotes;
+        Company.CompanyJobLink = _editModel.CompanyJobLink;
+        Company.CompanyContactPerson = _editModel.CompanyContactPerson;
+        Company.CompanyWebsite = _editModel.CompanyWebsite;
+        Company.CompanyCallOrNot = _editModel.CompanyCallOrNot;
+
+        _isEditing = false;
+
         await OnValidSubmitCallback.InvokeAsync(Company);
     }
-
 
 }

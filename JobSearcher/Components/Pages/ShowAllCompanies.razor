@@ -3,15 +3,37 @@
 @using JobSearcher.Components.Pages.Items
 @using JobSearcher.Services
 @inject CompanyService CompanyService
+@rendermode InteractiveServer
 <h3>ShowAllCompanies</h3>
 
-<ul>
+
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Company Name</th>
+        <th>Position</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Applied Date</th>
+        <th>Notes</th>
+        <th>Job link</th>
+        <th>Contact Person</th>
+        <th>Top of mind</th>
+        <th>Website</th>
+        <th>Call or not</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+
+    <tbody>
     @foreach (var company in _companies)
     {
-        <CompanyItem Company="company" OnValidSubmitCallback="HandleUpdate"/>
-        <button @onclick="() => DeleteCompany(company)">Delete</button>
+        <CompanyItem Company="company" OnValidSubmitCallback="HandleUpdate" OnDeleteCallback="DeleteCompany"/>
     }
-</ul>
+    </tbody>
+</table>
 
 @code {
 
