@@ -58,6 +58,51 @@
             <button type="button" @onclick="CancelEdit">Cancel</button>
         </td>
     }
+
+    else if (_isCreatingCompany)
+    {
+        <td><input @bind="Company.CompanyName" placeholder="Company name"/></td>
+        <td>
+            <InputSelect @bind-Value="Company.CompanyPosition">
+                @foreach (var position in Enum.GetValues<CompanyPosition>())
+                {
+                    <option value="@position">@position</option>
+                }
+            </InputSelect>
+        </td>
+        <td><input @bind="Company.CompanyLocation" placeholder="Location"/></td>
+        <td>
+            <InputSelect @bind-Value="Company.CompanyStatus">
+                @foreach (var status in Enum.GetValues<CompanyStatus>())
+                {
+                    <option value="@status">@status</option>
+                }
+            </InputSelect>
+        </td>
+        <td>
+            <InputDate @bind-Value="Company.CompanyAppliedDate"/>
+        </td>
+        <td>
+            <input @bind="Company.CompanyMinorNotes" placeholder="Minor notes"/>
+        </td>
+        <td>
+            <input @bind="Company.CompanyJobLink" placeholder="Job link"/>
+        </td>
+        <td>
+            <input @bind="Company.CompanyContactPerson"/>
+        </td>
+        <td>
+            <InputDate @bind-Value="Company.CompanyTopOfMind"></InputDate>
+        </td>
+        <td><input @bind="Company.CompanyWebsite" placeholder="Company Website"/></td>
+        <td><InputSelect @bind-Value="Company.CompanyCallOrNot">
+            @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
+            {
+                <option value="@callOrNot">@callOrNot</option>
+            }
+        </InputSelect></td>
+    }
+
     else
     {
         <td>@Company.Id</td>
@@ -75,6 +120,7 @@
         {
             <td>No notes</td>
         }
+        
 
         <td><a href="@Company.CompanyJobLink">Job link</a></td>
         <td>@Company.CompanyContactPerson</td>
@@ -96,6 +142,7 @@
     [Parameter] public EventCallback<Company> OnDeleteCallback { get; set; }
 
     private bool _isEditing = false;
+    private bool _isCreatingCompany = false;
     private Company _editModel = new();
 
     protected override void OnParametersSet()
