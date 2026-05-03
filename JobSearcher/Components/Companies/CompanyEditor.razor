@@ -1,0 +1,56 @@
+﻿<td>@Company.Id</td>
+<td>
+    <InputText @bind-Value="_editModel.CompanyName" placeholder="Company Name"/>
+</td>
+
+<td>
+    <InputSelect @bind-Value="_editModel.CompanyPosition">
+        @foreach (var position in Enum.GetValues<CompanyPosition>())
+        {
+            <option value="@position">@position</option>
+        }
+    </InputSelect>
+</td>
+<td>
+    <InputText @bind-Value="_editModel.CompanyLocation" placeholder="Location"/>
+</td>
+<td>
+    <InputSelect @bind-Value="_editModel.CompanyStatus">
+        @foreach (var status in Enum.GetValues<CompanyStatus>())
+        {
+            <option value="@status">@status</option>
+        }
+    </InputSelect>
+</td>
+
+<td>
+    <InputText @bind-Value="_editModel.CompanyMinorNotes" placeholder="Minor notes"/>
+</td>
+<td>
+    <InputText @bind-Value="_editModel.CompanyJobLink" placeholder="Job post link"/>
+</td>
+<td>
+    <InputText @bind-Value="_editModel.CompanyContactPerson" placeholder="Contact person"/>
+</td>
+<td>
+    <InputText @bind-Value="_editModel.CompanyWebsite" placeholder="Website"/>
+</td>
+
+<td>
+    <InputSelect @bind-Value="_editModel.CompanyCallOrNot">
+        @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
+        {
+            <option value="@callOrNot">@callOrNot</option>
+        }
+    </InputSelect>
+</td>
+
+<td>
+    <button @onclick="HandleSubmit">Save</button>
+</td>
+<td>
+    <button type="button" @onclick="CancelEdit">Cancel</button>
+</td>
+@code {
+    
+}
