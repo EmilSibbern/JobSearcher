@@ -1,5 +1,33 @@
-﻿<h3>CompanyRow</h3>
+﻿@using JobSearcher.Models
+
+<tr>
+    <td>@Company.Id</td>
+    <td>@Company.CompanyName</td>
+    <td>@Company.CompanyPosition</td>
+    <td>@Company.CompanyLocation</td>
+    <td>@Company.CompanyStatus</td>
+    <td>@Company.CompanyAppliedDate</td>
+    <td>@GetNotesDisplay(Company.CompanyMinorNotes)</td>
+    <td><a href="@Company.CompanyJobLink">Job link</a></td>
+    <td>@Company.CompanyContactPerson</td>
+    <td>@Company.CompanyTopOfMind</td>
+    <td><a href="@Company.CompanyWebsite">Company Website</a></td>
+    <td>@Company.CompanyCallOrNot</td>
+    <td>
+        <button type="button" @onclick="() => OnEdit.InvokeAsync(Company)">Edit</button>
+    </td>
+    <td>
+        <button type="button" @onclick="() => OnDelete.InvokeAsync(Company)">Delete</button>
+    </td>
+</tr>
 
 @code {
-    
+    [Parameter] public Company Company { get; set; } = new();
+    [Parameter] public EventCallback<Company> OnEdit { get; set; }
+    [Parameter] public EventCallback<Company> OnDelete { get; set; }
+
+    private static string GetNotesDisplay(string notes)
+    {
+        return string.IsNullOrWhiteSpace(notes) ? "No notes" : notes;
+    }
 }

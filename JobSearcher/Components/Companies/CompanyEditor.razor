@@ -1,56 +1,85 @@
-﻿<td>@Company.Id</td>
-<td>
-    <InputText @bind-Value="_editModel.CompanyName" placeholder="Company Name"/>
-</td>
+﻿
+@using JobSearcher.Models
+@using JobSearcher.Models.Enums
+@using Microsoft.AspNetCore.Components.Forms
 
-<td>
-    <InputSelect @bind-Value="_editModel.CompanyPosition">
-        @foreach (var position in Enum.GetValues<CompanyPosition>())
-        {
-            <option value="@position">@position</option>
-        }
-    </InputSelect>
-</td>
-<td>
-    <InputText @bind-Value="_editModel.CompanyLocation" placeholder="Location"/>
-</td>
-<td>
-    <InputSelect @bind-Value="_editModel.CompanyStatus">
-        @foreach (var status in Enum.GetValues<CompanyStatus>())
-        {
-            <option value="@status">@status</option>
-        }
-    </InputSelect>
-</td>
+<tr>
+    <td>@_editModel.Id</td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyName" placeholder="Company Name" />
+    </td>
+    <td>
+        <InputSelect @bind-Value="_editModel.CompanyPosition">
+            @foreach (var position in Enum.GetValues<CompanyPosition>())
+            {
+                <option value="@position">@position</option>
+            }
+        </InputSelect>
+    </td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyLocation" placeholder="Location" />
+    </td>
+    <td>
+        <InputSelect @bind-Value="_editModel.CompanyStatus">
+            @foreach (var status in Enum.GetValues<CompanyStatus>())
+            {
+                <option value="@status">@status</option>
+            }
+        </InputSelect>
+    </td>
+    <td>
+        <InputDate @bind-Value="_editModel.CompanyAppliedDate" />
+    </td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyMinorNotes" placeholder="Minor notes" />
+    </td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyJobLink" placeholder="Job post link" />
+    </td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyContactPerson" placeholder="Contact person" />
+    </td>
+    <td>
+        <InputDate @bind-Value="_editModel.CompanyTopOfMind" />
+    </td>
+    <td>
+        <InputText @bind-Value="_editModel.CompanyWebsite" placeholder="Website" />
+    </td>
+    <td>
+        <InputSelect @bind-Value="_editModel.CompanyCallOrNot">
+            @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
+            {
+                <option value="@callOrNot">@callOrNot</option>
+            }
+        </InputSelect>
+    </td>
+    <td colspan="2">
+        <EditForm Model="_editModel" OnValidSubmit="HandleSubmit">
+            <button type="submit">Save</button>
+            <button type="button" @onclick="CancelEdit">Cancel</button>
+        </EditForm>
+    </td>
+</tr>
 
-<td>
-    <InputText @bind-Value="_editModel.CompanyMinorNotes" placeholder="Minor notes"/>
-</td>
-<td>
-    <InputText @bind-Value="_editModel.CompanyJobLink" placeholder="Job post link"/>
-</td>
-<td>
-    <InputText @bind-Value="_editModel.CompanyContactPerson" placeholder="Contact person"/>
-</td>
-<td>
-    <InputText @bind-Value="_editModel.CompanyWebsite" placeholder="Website"/>
-</td>
-
-<td>
-    <InputSelect @bind-Value="_editModel.CompanyCallOrNot">
-        @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
-        {
-            <option value="@callOrNot">@callOrNot</option>
-        }
-    </InputSelect>
-</td>
-
-<td>
-    <button @onclick="HandleSubmit">Save</button>
-</td>
-<td>
-    <button type="button" @onclick="CancelEdit">Cancel</button>
-</td>
 @code {
-    
+    [Parameter] public Company Model { get; set; } = new();
+    [Parameter] public EventCallback<Company> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private Company _editModel = new();
+
+    protected override void OnParametersSet()
+    {
+        _editModel = new Company(Model);
+    }
+
+    private async Task HandleSubmit()
+    {
+        await OnSave.InvokeAsync(_editModel);
+    }
+
+    private async Task CancelEdit()
+    {
+        await OnCancel.InvokeAsync();
+    }
 }

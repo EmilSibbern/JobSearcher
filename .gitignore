@@ -1,0 +1,22 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Local configuration and secrets
+appsettings.Development.json
+.env
+.env.*
+!.env.example
+
+# IDE and user-specific files
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# OS files
+.DS_Store
+Thumbs.db

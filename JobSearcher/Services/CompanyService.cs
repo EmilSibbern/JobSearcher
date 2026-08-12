@@ -20,6 +20,7 @@ public class CompanyService
     
     public async Task AddCompany(Company company)
     {
+        company.NormalizeDateKindsToUtc();
         _context.Companies.Add(company);
         await _context.SaveChangesAsync();
     }
@@ -32,6 +33,7 @@ public class CompanyService
 
     public async Task UpdateCompany(Company company)
     {
+        company.NormalizeDateKindsToUtc();
         _context.Companies.Update(company);
         await _context.SaveChangesAsync();
     }

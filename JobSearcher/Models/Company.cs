@@ -42,13 +42,29 @@ public class Company
         CompanyName = other.CompanyName;
         CompanyPosition = other.CompanyPosition;
         CompanyLocation = other.CompanyLocation;
-        CompanyAppliedDate = other.CompanyAppliedDate;
+        CompanyAppliedDate = EnsureUtc(other.CompanyAppliedDate);
         CompanyStatus = other.CompanyStatus;
         CompanyMinorNotes = other.CompanyMinorNotes;
         CompanyJobLink = other.CompanyJobLink;
         CompanyContactPerson = other.CompanyContactPerson;
-        CompanyTopOfMind = other.CompanyTopOfMind;
+        CompanyTopOfMind = EnsureUtc(other.CompanyTopOfMind);
         CompanyWebsite = other.CompanyWebsite;
         CompanyCallOrNot = other.CompanyCallOrNot;
+    }
+
+    public void NormalizeDateKindsToUtc()
+    {
+        CompanyAppliedDate = EnsureUtc(CompanyAppliedDate);
+        CompanyTopOfMind = EnsureUtc(CompanyTopOfMind);
+    }
+
+    private static DateTime EnsureUtc(DateTime value)
+    {
+        return value.Kind switch
+        {
+            DateTimeKind.Utc => value,
+            DateTimeKind.Local => value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(value, DateTimeKind.Utc)
+        };
     }
 }

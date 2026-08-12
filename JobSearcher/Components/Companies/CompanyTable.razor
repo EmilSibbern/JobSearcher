@@ -1,5 +1,124 @@
-﻿<h3>CompanyTable</h3>
+﻿@using JobSearcher.Models
+@using JobSearcher.Models.Enums
+@using JobSearcher.Services
+@inject CompanyService CompanyService
+
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Company Name</th>
+        <th>Position</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Applied Date</th>
+        <th>Notes</th>
+        <th>Job link</th>
+        <th>Contact Person</th>
+        <th>Top of mind</th>
+        <th>Website</th>
+        <th>Call or not</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (_mode == CompanyMode.Create)
+    {
+        <CompanyEditor Model="_editModel" OnSave="SaveCreate" OnCancel="Cancel" />
+    }
+
+    @foreach (var company in _companies)
+    {
+        if (_mode == CompanyMode.Edit && _editingCompanyId == company.Id)
+        {
+            <CompanyEditor Model="_editModel" OnSave="SaveEdit" OnCancel="Cancel" />
+        }
+        else
+        {
+            <CompanyRow Company="company" OnEdit="StartEdit" OnDelete="DeleteCompany" />
+        }
+    }
+    </tbody>
+</table>
+
+@if (_mode == CompanyMode.View)
+{
+    <button type="button" @onclick="StartCreate">Create Company</button>
+}
 
 @code {
-    
+    private List<Company> _companies = new();
+    private Company _editModel = new();
+    private CompanyMode _mode = CompanyMode.View;
+    private int _editingCompanyId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshCompanies();
+    }
+
+    private async Task RefreshCompanies()
+    {
+        _companies = await CompanyService.GetCompanies();
+    }
+
+    private void StartCreate()
+    {
+        _mode = CompanyMode.Create;
+        _editingCompanyId = 0;
+        _editModel = new Company();
+    }
+
+    private void StartEdit(Company company)
+    {
+        _mode = CompanyMode.Edit;
+        _editingCompanyId = company.Id;
+        _editModel = new Company(company);
+    }
+
+    private async Task SaveCreate(Company model)
+    {
+        var company = new Company();
+        company.UpdateFrom(model);
+
+        await CompanyService.AddCompany(company);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private async Task SaveEdit(Company model)
+    {
+        var existing = _companies.FirstOrDefault(c => c.Id == _editingCompanyId);
+        if (existing is null)
+        {
+            ResetState();
+            return;
+        }
+
+        existing.UpdateFrom(model);
+        await CompanyService.UpdateCompany(existing);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private async Task DeleteCompany(Company company)
+    {
+        await CompanyService.RemoveCompany(company);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private Task Cancel()
+    {
+        ResetState();
+        return Task.CompletedTask;
+    }
+
+    private void ResetState()
+    {
+        _mode = CompanyMode.View;
+        _editingCompanyId = 0;
+        _editModel = new Company();
+    }
 }
