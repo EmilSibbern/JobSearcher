@@ -18,15 +18,13 @@ builder.Services.AddScoped<CompanyService>();
 var app = builder.Build();
 
 // Ensure a new database is ready before the application starts serving requests.
-using (var scope = app.Services.CreateScope())
+// This can be disabled for UI-only previews where PostgreSQL is unavailable.
+if (builder.Configuration.GetValue("Database:MigrateOnStartup", true))
 {
+    using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await dbContext.Database.MigrateAsync();
 }
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

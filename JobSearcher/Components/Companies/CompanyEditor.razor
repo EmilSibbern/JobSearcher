@@ -1,85 +1,25 @@
-﻿
 @using JobSearcher.Models
 @using JobSearcher.Models.Enums
-@using Microsoft.AspNetCore.Components.Forms
 
-<tr>
-    <td>@_editModel.Id</td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyName" placeholder="Company Name" />
-    </td>
-    <td>
-        <InputSelect @bind-Value="_editModel.CompanyPosition">
-            @foreach (var position in Enum.GetValues<CompanyPosition>())
-            {
-                <option value="@position">@position</option>
-            }
-        </InputSelect>
-    </td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyLocation" placeholder="Location" />
-    </td>
-    <td>
-        <InputSelect @bind-Value="_editModel.CompanyStatus">
-            @foreach (var status in Enum.GetValues<CompanyStatus>())
-            {
-                <option value="@status">@status</option>
-            }
-        </InputSelect>
-    </td>
-    <td>
-        <InputDate @bind-Value="_editModel.CompanyAppliedDate" />
-    </td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyMinorNotes" placeholder="Minor notes" />
-    </td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyJobLink" placeholder="Job post link" />
-    </td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyContactPerson" placeholder="Contact person" />
-    </td>
-    <td>
-        <InputDate @bind-Value="_editModel.CompanyTopOfMind" />
-    </td>
-    <td>
-        <InputText @bind-Value="_editModel.CompanyWebsite" placeholder="Website" />
-    </td>
-    <td>
-        <InputSelect @bind-Value="_editModel.CompanyCallOrNot">
-            @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
-            {
-                <option value="@callOrNot">@callOrNot</option>
-            }
-        </InputSelect>
-    </td>
-    <td colspan="2">
-        <EditForm Model="_editModel" OnValidSubmit="HandleSubmit">
-            <button type="submit">Save</button>
-            <button type="button" @onclick="CancelEdit">Cancel</button>
-        </EditForm>
-    </td>
+<tr class="editor-row">
+    <td><InputText class="form-control" @bind-Value="_editModel.CompanyName" placeholder="Company name" /></td>
+    <td><InputSelect class="form-select" @bind-Value="_editModel.CompanyStatus">@foreach (var item in Enum.GetValues<CompanyStatus>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></td>
+    <td class="desktop-only"><InputSelect class="form-select" @bind-Value="_editModel.CompanyPosition">@foreach (var item in Enum.GetValues<CompanyPosition>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></td>
+    <td class="desktop-only"><InputText class="form-control" @bind-Value="_editModel.CompanyLocation" placeholder="Location" /></td>
+    <td class="desktop-only"><InputDate class="form-control" @bind-Value="_editModel.CompanyAppliedDate" /></td>
+    <td class="desktop-only"><InputDate class="form-control" @bind-Value="_editModel.CompanyTopOfMind" /></td>
+    <td><div class="action-group"><button class="btn btn-primary" type="button" @onclick="HandleSubmit">Save</button><button class="btn btn-ghost" type="button" @onclick="CancelEdit">Cancel</button></div></td>
 </tr>
+
+<style>.editor-row { background: rgba(245,158,11,.035); } .editor-row .form-control, .editor-row .form-select { min-width: 125px; min-height: 38px; padding: .4rem .6rem; font-size: .78rem; }</style>
 
 @code {
     [Parameter] public Company Model { get; set; } = new();
     [Parameter] public EventCallback<Company> OnSave { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
-
     private Company _editModel = new();
-
-    protected override void OnParametersSet()
-    {
-        _editModel = new Company(Model);
-    }
-
-    private async Task HandleSubmit()
-    {
-        await OnSave.InvokeAsync(_editModel);
-    }
-
-    private async Task CancelEdit()
-    {
-        await OnCancel.InvokeAsync();
-    }
+    protected override void OnParametersSet() => _editModel = new Company(Model);
+    private Task HandleSubmit() => OnSave.InvokeAsync(_editModel);
+    private Task CancelEdit() => OnCancel.InvokeAsync();
+    private static string Format(string value) => System.Text.RegularExpressions.Regex.Replace(value, "([a-z])([A-Z])", "$1 $2");
 }

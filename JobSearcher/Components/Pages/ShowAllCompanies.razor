@@ -1,6 +1,13 @@
 @page "/ShowAllCompanies"
 @using JobSearcher.Components.Companies
 @rendermode InteractiveServer
-<h3>ShowAllCompanies</h3>
 
-<CompanyTable />
+<PageTitle>Companies · JobSearcher</PageTitle>
+
+<section class="page-shell">
+    <header class="page-header">
+        <div><span class="eyebrow">Opportunity pipeline</span><h1 class="page-title">Companies</h1><p class="page-lead">Every lead, application, and conversation—organized into one focused view.</p></div>
+        <a class="btn btn-primary" href="CreateCompany">＋ Add company</a>
+    </header>
+    <CompanyTable />
+</section>

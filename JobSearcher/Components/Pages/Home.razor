@@ -1,7 +1,42 @@
-﻿@page "/"
+@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Overview · JobSearcher</PageTitle>
 
-<h1>Hello, world!</h1>
+<section class="page-shell home-hero">
+    <div class="hero-copy">
+        <div class="hero-badge"><span></span>Your next chapter starts here</div>
+        <h1>Turn the job search into a <em>clear process.</em></h1>
+        <p>Keep every opportunity, conversation, and follow-up in one calm workspace—so you can focus on making the right next move.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="CreateCompany">Add an opportunity <span aria-hidden="true">→</span></a>
+            <a class="btn btn-outline-light" href="ShowAllCompanies">View pipeline</a>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="workflow-grid" aria-label="Job search workflow">
+        <article class="workflow-card glass-card"><span class="step">01</span><div class="card-icon">＋</div><h2>Capture</h2><p>Save promising companies as soon as they catch your attention.</p></article>
+        <article class="workflow-card glass-card featured"><span class="step">02</span><div class="card-icon">◇</div><h2>Track</h2><p>Keep applications, contacts, interviews, and notes in context.</p></article>
+        <article class="workflow-card glass-card"><span class="step">03</span><div class="card-icon">↗</div><h2>Follow up</h2><p>Know who to call and when to put yourself top of mind.</p></article>
+    </div>
+</section>
+
+<style>
+    .home-hero { padding-top: clamp(1rem, 4vw, 3rem); }
+    .hero-copy { max-width: 760px; }
+    .hero-badge { width: fit-content; display: flex; align-items: center; gap: .55rem; padding: .42rem .7rem; color: #d6d6dc; background: var(--accent-muted); border: 1px solid rgba(245,158,11,.18); border-radius: 999px; box-shadow: 0 0 25px rgba(245,158,11,.08); font-family: "JetBrains Mono", monospace; font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; }
+    .hero-badge span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: heroPulse 2s infinite; }
+    h1 { max-width: 750px; margin: 1.5rem 0 1.25rem; font-size: clamp(2.8rem, 7vw, 5.8rem); line-height: .98; font-weight: 600; }
+    h1 em { color: var(--accent); font-style: normal; text-shadow: 0 0 45px rgba(245,158,11,.14); }
+    .hero-copy > p { max-width: 620px; color: var(--muted-foreground); font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.75; }
+    .hero-actions { display: flex; gap: .75rem; margin-top: 2rem; }
+    .workflow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: clamp(4rem, 9vw, 7rem); }
+    .workflow-card { position: relative; padding: 1.6rem; transition: all 280ms ease-out; overflow: hidden; }
+    .workflow-card:hover { transform: translateY(-4px); border-color: var(--border-hover); background: rgba(26,26,36,.82); }
+    .workflow-card.featured { border-color: rgba(245,158,11,.2); box-shadow: 0 0 0 1px rgba(245,158,11,.08), 0 0 35px rgba(245,158,11,.08); }
+    .step { position: absolute; right: 1.2rem; top: 1rem; color: #4f4f59; font-family: "JetBrains Mono", monospace; font-size: .68rem; }
+    .card-icon { width: 38px; height: 38px; display: grid; place-items: center; color: var(--accent); background: var(--accent-muted); border-radius: 10px; }
+    .workflow-card h2 { margin: 1.25rem 0 .55rem; font-size: 1.15rem; }
+    .workflow-card p { margin: 0; color: var(--muted-foreground); font-size: .84rem; line-height: 1.65; }
+    @@keyframes heroPulse { 50% { opacity: .4; } }
+    @@media (max-width: 760px) { .hero-actions { flex-direction: column; } .workflow-grid { grid-template-columns: 1fr; margin-top: 4rem; } }
+</style>

@@ -1,33 +1,23 @@
-﻿@using JobSearcher.Models
+@using JobSearcher.Models
 
 <tr>
-    <td>@Company.Id</td>
-    <td>@Company.CompanyName</td>
-    <td>@Company.CompanyPosition</td>
-    <td>@Company.CompanyLocation</td>
-    <td>@Company.CompanyStatus</td>
-    <td>@Company.CompanyAppliedDate</td>
-    <td>@GetNotesDisplay(Company.CompanyMinorNotes)</td>
-    <td><a href="@Company.CompanyJobLink">Job link</a></td>
-    <td>@Company.CompanyContactPerson</td>
-    <td>@Company.CompanyTopOfMind</td>
-    <td><a href="@Company.CompanyWebsite">Company Website</a></td>
-    <td>@Company.CompanyCallOrNot</td>
-    <td>
-        <button type="button" @onclick="() => OnEdit.InvokeAsync(Company)">Edit</button>
-    </td>
-    <td>
-        <button type="button" @onclick="() => OnDelete.InvokeAsync(Company)">Delete</button>
-    </td>
+    <td><div class="company-name">@(string.IsNullOrWhiteSpace(Company.CompanyName) ? "Untitled company" : Company.CompanyName)</div><div class="cell-muted mobile-meta">@Company.CompanyLocation · @Company.CompanyPosition</div></td>
+    <td><span class="status-pill">@Format(Company.CompanyStatus.ToString())</span></td>
+    <td class="desktop-only cell-muted">@Format(Company.CompanyPosition.ToString())</td>
+    <td class="desktop-only cell-muted">@(string.IsNullOrWhiteSpace(Company.CompanyLocation) ? "—" : Company.CompanyLocation)</td>
+    <td class="desktop-only cell-muted">@Company.CompanyAppliedDate.ToString("dd MMM yy")</td>
+    <td class="desktop-only cell-muted">@Company.CompanyTopOfMind.ToString("dd MMM yy")</td>
+    <td><div class="action-group"><button class="btn btn-ghost" type="button" title="Edit @Company.CompanyName" @onclick="() => OnEdit.InvokeAsync(Company)">Edit</button><button class="btn btn-danger-ghost" type="button" title="Delete @Company.CompanyName" @onclick="() => OnDelete.InvokeAsync(Company)">Delete</button></div></td>
 </tr>
+
+<style>
+    .mobile-meta { display: none; margin-top: .25rem; font-size: .72rem; }
+    @@media (max-width: 760px) { .mobile-meta { display: block; } }
+</style>
 
 @code {
     [Parameter] public Company Company { get; set; } = new();
     [Parameter] public EventCallback<Company> OnEdit { get; set; }
     [Parameter] public EventCallback<Company> OnDelete { get; set; }
-
-    private static string GetNotesDisplay(string notes)
-    {
-        return string.IsNullOrWhiteSpace(notes) ? "No notes" : notes;
-    }
+    private static string Format(string value) => System.Text.RegularExpressions.Regex.Replace(value, "([a-z])([A-Z])", "$1 $2");
 }

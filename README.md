@@ -41,4 +41,18 @@ The project requires the .NET 10 SDK and access to a PostgreSQL database.
 
 Open the local address printed in the terminal. The main pages are available at `/CreateCompany` and `/ShowAllCompanies`.
 
+## Docker Compose
+
+For local development, start the standalone local Compose file:
+
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
+The application is available at `http://localhost:8080`. PostgreSQL is available to local database tools at `localhost:5432`; the application itself connects to PostgreSQL through the Compose service name `db`.
+
+Copy `.env.example` to `.env` if you want to change the local ports or database credentials.
+
+For Dokploy, deploy only `docker-compose.yml`. Configure the public domain in Dokploy with container port `8080`, and set `POSTGRES_DB`, `POSTGRES_USER`, and a strong `POSTGRES_PASSWORD` in the Dokploy environment. PostgreSQL remains private inside the Compose network and its data is persisted in the `postgres_data` volume.
+
 > This is a learning project and is not intended for production use.
