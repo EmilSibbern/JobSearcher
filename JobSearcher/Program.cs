@@ -17,6 +17,13 @@ builder.Services.AddScoped<CompanyService>();
 
 var app = builder.Build();
 
+// Ensure a new database is ready before the application starts serving requests.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
