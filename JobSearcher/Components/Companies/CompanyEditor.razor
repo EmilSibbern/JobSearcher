@@ -2,16 +2,41 @@
 @using JobSearcher.Models.Enums
 
 <tr class="editor-row">
-    <td><InputText class="form-control" @bind-Value="_editModel.CompanyName" placeholder="Company name" /></td>
-    <td><InputSelect class="form-select" @bind-Value="_editModel.CompanyStatus">@foreach (var item in Enum.GetValues<CompanyStatus>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></td>
-    <td class="desktop-only"><InputSelect class="form-select" @bind-Value="_editModel.CompanyPosition">@foreach (var item in Enum.GetValues<CompanyPosition>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></td>
-    <td class="desktop-only"><InputText class="form-control" @bind-Value="_editModel.CompanyLocation" placeholder="Location" /></td>
-    <td class="desktop-only"><InputDate class="form-control" @bind-Value="_editModel.CompanyAppliedDate" /></td>
-    <td class="desktop-only"><InputDate class="form-control" @bind-Value="_editModel.CompanyTopOfMind" /></td>
-    <td><div class="action-group"><button class="btn btn-primary" type="button" @onclick="HandleSubmit">Save</button><button class="btn btn-ghost" type="button" @onclick="CancelEdit">Cancel</button></div></td>
+    <td>
+        <InputText class="form-control" @bind-Value="_editModel.CompanyName" placeholder="Company name"/>
+    </td>
+    <td>
+        <InputSelect class="form-select"
+                     @bind-Value="_editModel.CompanyStatus">@foreach (var item in Enum.GetValues<CompanyStatus>())
+            {
+                <option value="@item">@Format(item.ToString())</option>
+            }
+        </InputSelect>
+    </td>
+    <td class="desktop-only">
+        <InputSelect class="form-select"
+                     @bind-Value="_editModel.CompanyPosition">@foreach (var item in Enum.GetValues<CompanyPosition>())
+            {
+                <option value="@item">@Format(item.ToString())</option>
+            }
+        </InputSelect>
+    </td>
+    <td class="desktop-only">
+        <InputText class="form-control" @bind-Value="_editModel.CompanyLocation" placeholder="Location"/>
+    </td>
+    <td class="desktop-only">
+        <InputDate class="form-control" @bind-Value="_editModel.CompanyAppliedDate"/>
+    </td>
+    <td class="desktop-only">
+        <InputDate class="form-control" @bind-Value="_editModel.CompanyTopOfMind"/>
+    </td>
+    <td>
+        <div class="action-group">
+            <button class="btn btn-primary" type="button" @onclick="HandleSubmit">Save</button>
+            <button class="btn btn-ghost" type="button" @onclick="CancelEdit">Cancel</button>
+        </div>
+    </td>
 </tr>
-
-<style>.editor-row { background: rgba(245,158,11,.035); } .editor-row .form-control, .editor-row .form-select { min-width: 125px; min-height: 38px; padding: .4rem .6rem; font-size: .78rem; }</style>
 
 @code {
     [Parameter] public Company Model { get; set; } = new();

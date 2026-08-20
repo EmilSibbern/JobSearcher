@@ -95,12 +95,14 @@
             <InputDate @bind-Value="Company.CompanyTopOfMind"></InputDate>
         </td>
         <td><input @bind="Company.CompanyWebsite" placeholder="Company Website"/></td>
-        <td><InputSelect @bind-Value="Company.CompanyCallOrNot">
-            @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
-            {
-                <option value="@callOrNot">@callOrNot</option>
-            }
-        </InputSelect></td>
+        <td>
+            <InputSelect @bind-Value="Company.CompanyCallOrNot">
+                @foreach (var callOrNot in Enum.GetValues<CompanyCallOrNot>())
+                {
+                    <option value="@callOrNot">@callOrNot</option>
+                }
+            </InputSelect>
+        </td>
     }
 
     else
@@ -120,7 +122,7 @@
         {
             <td>No notes</td>
         }
-        
+
 
         <td><a href="@Company.CompanyJobLink">Job link</a></td>
         <td>@Company.CompanyContactPerson</td>

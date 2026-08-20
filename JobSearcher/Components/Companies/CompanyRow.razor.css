@@ -1,0 +1,2 @@
+.mobile-meta { display: none; margin-top: .25rem; font-size: .72rem; }
+@media (max-width: 760px) { .mobile-meta { display: block; } }

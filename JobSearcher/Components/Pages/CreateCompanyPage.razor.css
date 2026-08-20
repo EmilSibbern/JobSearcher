@@ -1,0 +1,13 @@
+.company-form { overflow: hidden; }
+.form-section { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; padding: 2rem; border-bottom: 1px solid var(--border); }
+.section-heading { display: flex; gap: .85rem; }
+.section-heading > span { color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: .68rem; padding-top: .25rem; }
+.section-heading h2 { margin: 0; font-size: 1rem; }
+.section-heading p { margin: .35rem 0 0; color: var(--muted-foreground); font-size: .76rem; line-height: 1.5; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.field-wide { grid-column: 1 / -1; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.25rem 2rem; background: rgba(10,10,15,.28); }
+.form-actions > span { color: var(--muted-foreground); font-size: .72rem; }
+.form-actions > div { display: flex; gap: .5rem; }
+@media (max-width: 850px) { .form-section { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .field-wide { grid-column: auto; } .form-actions { align-items: stretch; flex-direction: column; } .form-actions > div { flex-direction: column-reverse; } }

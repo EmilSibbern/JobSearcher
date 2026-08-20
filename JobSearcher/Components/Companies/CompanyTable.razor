@@ -4,51 +4,64 @@
 @inject CompanyService CompanyService
 
 <div class="metrics-grid">
-    <div class="metric glass-card"><span>Companies</span><strong>@_companies.Count</strong><small>Total tracked</small></div>
-    <div class="metric glass-card"><span>Interviews</span><strong>@_companies.Count(x => x.CompanyStatus is CompanyStatus.Interview or CompanyStatus.SecondInterview)</strong><small>Active conversations</small></div>
-    <div class="metric glass-card"><span>Follow-ups</span><strong>@_companies.Count(x => x.CompanyCallOrNot == CompanyCallOrNot.ShouldCall)</strong><small>Calls to make</small></div>
+    <div class="metric glass-card"><span>Companies</span><strong>@_companies.Count</strong><small>Total tracked</small>
+    </div>
+    <div class="metric glass-card">
+        <span>Interviews</span><strong>@_companies.Count(x => x.CompanyStatus is CompanyStatus.Interview or CompanyStatus.SecondInterview)</strong><small>Active
+            conversations</small></div>
+    <div class="metric glass-card">
+        <span>Follow-ups</span><strong>@_companies.Count(x => x.CompanyCallOrNot == CompanyCallOrNot.ShouldCall)</strong><small>Calls
+            to make</small></div>
 </div>
 
 <div class="pipeline glass-card">
     <div class="pipeline-toolbar">
-        <div><h2>Application pipeline</h2><p>Review and update your opportunities.</p></div>
-        <span class="record-count">@_companies.Count @( _companies.Count == 1 ? "record" : "records")</span>
+        <div><h2>Application pipeline</h2>
+            <p>Review and update your opportunities.</p></div>
+        <span class="record-count">@_companies.Count @(_companies.Count == 1 ? "record" : "records")</span>
     </div>
     <div class="table-wrap">
         <table class="app-table">
-            <thead><tr><th>Company</th><th>Status</th><th class="desktop-only">Position</th><th class="desktop-only">Location</th><th class="desktop-only">Applied</th><th class="desktop-only">Follow-up</th><th aria-label="Actions"></th></tr></thead>
+            <thead>
+            <tr>
+                <th>Company</th>
+                <th>Status</th>
+                <th class="desktop-only">Position</th>
+                <th class="desktop-only">Location</th>
+                <th class="desktop-only">Applied</th>
+                <th class="desktop-only">Follow-up</th>
+                <th aria-label="Actions"></th>
+            </tr>
+            </thead>
             <tbody>
-            @if (_mode == CompanyMode.Create) { <CompanyEditor Model="_editModel" OnSave="SaveCreate" OnCancel="Cancel" /> }
+            @if (_mode == CompanyMode.Create)
+            {
+                <CompanyEditor Model="_editModel" OnSave="SaveCreate" OnCancel="Cancel"/>
+            }
             @foreach (var company in _companies)
             {
-                if (_mode == CompanyMode.Edit && _editingCompanyId == company.Id) { <CompanyEditor Model="_editModel" OnSave="SaveEdit" OnCancel="Cancel" /> }
-                else { <CompanyRow Company="company" OnEdit="StartEdit" OnDelete="DeleteCompany" /> }
+                if (_mode == CompanyMode.Edit && _editingCompanyId == company.Id)
+                {
+                    <CompanyEditor Model="_editModel" OnSave="SaveEdit" OnCancel="Cancel"/>
+                }
+                else
+                {
+                    <CompanyRow Company="company" OnEdit="StartEdit" OnDelete="DeleteCompany"/>
+                }
             }
             </tbody>
         </table>
         @if (_companies.Count == 0 && _mode == CompanyMode.View)
         {
-            <div class="empty-state"><div class="empty-icon">◇</div><h3>No companies yet</h3><p>Add your first opportunity and start building your pipeline.</p><a class="btn btn-primary" href="CreateCompany">Add company</a></div>
+            <div class="empty-state">
+                <div class="empty-icon">◇</div>
+                <h3>No companies yet</h3>
+                <p>Add your first opportunity and start building your pipeline.</p><a class="btn btn-primary"
+                                                                                      href="CreateCompany">Add
+                    company</a></div>
         }
     </div>
 </div>
-
-<style>
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
-    .metric { padding: 1.25rem 1.4rem; }
-    .metric span, .metric small { color: var(--muted-foreground); font-size: .72rem; }
-    .metric span { display: block; font-family: "JetBrains Mono", monospace; letter-spacing: .05em; text-transform: uppercase; }
-    .metric strong { display: block; margin: .45rem 0 .15rem; font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; font-weight: 600; }
-    .pipeline { overflow: hidden; }
-    .pipeline-toolbar { min-height: 82px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.2rem 1.4rem; border-bottom: 1px solid var(--border); }
-    .pipeline-toolbar h2 { margin: 0; font-size: 1rem; }
-    .pipeline-toolbar p { margin: .3rem 0 0; color: var(--muted-foreground); font-size: .75rem; }
-    .record-count { color: var(--muted-foreground); font-family: "JetBrains Mono", monospace; font-size: .68rem; }
-    .empty-icon { width: 44px; height: 44px; display: grid; place-items: center; margin: 0 auto 1rem; color: var(--accent); background: var(--accent-muted); border-radius: 12px; }
-    .empty-state h3 { color: var(--foreground); font-size: 1.1rem; }
-    .empty-state p { margin-bottom: 1.3rem; font-size: .84rem; }
-    @@media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr; } }
-</style>
 
 @code {
     private List<Company> _companies = new();
@@ -57,10 +70,56 @@
     private int _editingCompanyId;
     protected override async Task OnInitializedAsync() => await RefreshCompanies();
     private async Task RefreshCompanies() => _companies = await CompanyService.GetCompanies();
-    private void StartEdit(Company company) { _mode = CompanyMode.Edit; _editingCompanyId = company.Id; _editModel = new Company(company); }
-    private async Task SaveCreate(Company model) { var company = new Company(); company.UpdateFrom(model); await CompanyService.AddCompany(company); await RefreshCompanies(); ResetState(); }
-    private async Task SaveEdit(Company model) { var existing = _companies.FirstOrDefault(c => c.Id == _editingCompanyId); if (existing is null) { ResetState(); return; } existing.UpdateFrom(model); await CompanyService.UpdateCompany(existing); await RefreshCompanies(); ResetState(); }
-    private async Task DeleteCompany(Company company) { await CompanyService.RemoveCompany(company); await RefreshCompanies(); ResetState(); }
-    private Task Cancel() { ResetState(); return Task.CompletedTask; }
-    private void ResetState() { _mode = CompanyMode.View; _editingCompanyId = 0; _editModel = new Company(); }
+
+    private void StartEdit(Company company)
+    {
+        _mode = CompanyMode.Edit;
+        _editingCompanyId = company.Id;
+        _editModel = new Company(company);
+    }
+
+    private async Task SaveCreate(Company model)
+    {
+        var company = new Company();
+        company.UpdateFrom(model);
+        await CompanyService.AddCompany(company);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private async Task SaveEdit(Company model)
+    {
+        var existing = _companies.FirstOrDefault(c => c.Id == _editingCompanyId);
+        if (existing is null)
+        {
+            ResetState();
+            return;
+        }
+
+        existing.UpdateFrom(model);
+        await CompanyService.UpdateCompany(existing);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private async Task DeleteCompany(Company company)
+    {
+        await CompanyService.RemoveCompany(company);
+        await RefreshCompanies();
+        ResetState();
+    }
+
+    private Task Cancel()
+    {
+        ResetState();
+        return Task.CompletedTask;
+    }
+
+    private void ResetState()
+    {
+        _mode = CompanyMode.View;
+        _editingCompanyId = 0;
+        _editModel = new Company();
+    }
+
 }

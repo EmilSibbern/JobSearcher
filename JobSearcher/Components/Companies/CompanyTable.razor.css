@@ -1,0 +1,23 @@
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.metric { padding: 1.25rem 1.4rem; }
+.metric span, .metric small { color: var(--muted-foreground); font-size: .72rem; }
+.metric span { display: block; font-family: "JetBrains Mono", monospace; letter-spacing: .05em; text-transform: uppercase; }
+.metric strong { display: block; margin: .45rem 0 .15rem; font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; font-weight: 600; }
+.pipeline { overflow: hidden; }
+.pipeline-toolbar { min-height: 82px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.2rem 1.4rem; border-bottom: 1px solid var(--border); }
+.pipeline-toolbar h2 { margin: 0; font-size: 1rem; }
+.pipeline-toolbar p { margin: .3rem 0 0; color: var(--muted-foreground); font-size: .75rem; }
+.record-count { color: var(--muted-foreground); font-family: "JetBrains Mono", monospace; font-size: .68rem; }
+.empty-icon { width: 44px; height: 44px; display: grid; place-items: center; margin: 0 auto 1rem; color: var(--accent); background: var(--accent-muted); border-radius: 12px; }
+.empty-state h3 { color: var(--foreground); font-size: 1.1rem; }
+.empty-state p { margin-bottom: 1.3rem; font-size: .84rem; }
+
+@media (max-width: 600px) {
+    .metrics-grid { grid-template-columns: 1fr; }
+}

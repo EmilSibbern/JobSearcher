@@ -10,61 +10,112 @@
 
 <section class="page-shell">
     <header class="page-header">
-        <div><span class="eyebrow">New opportunity</span><h1 class="page-title">Add a company</h1><p class="page-lead">Capture the useful details now. You can refine everything later as the conversation develops.</p></div>
+        <div><span class="eyebrow">New opportunity</span>
+            <h1 class="page-title">Add a company</h1>
+            <p class="page-lead">Capture the useful details now. You can refine everything later as the conversation
+                develops.</p></div>
         <a class="btn btn-ghost" href="ShowAllCompanies">← Back to companies</a>
     </header>
 
     <EditForm Model="company" OnValidSubmit="CreateCompany" class="company-form glass-card">
-        <DataAnnotationsValidator />
+        <DataAnnotationsValidator/>
         <div class="form-section">
-            <div class="section-heading"><span>01</span><div><h2>Company basics</h2><p>The opportunity and where it is based.</p></div></div>
+            <div class="section-heading"><span>01</span>
+                <div><h2>Company basics</h2>
+                    <p>The opportunity and where it is based.</p></div>
+            </div>
             <div class="form-grid">
-                <div class="field-wide"><label class="form-label" for="company-name">Company name</label><InputText id="company-name" class="form-control" @bind-Value="company.CompanyName" placeholder="e.g. Acme Studio" /></div>
-                <div><label class="form-label" for="position">Position</label><InputSelect id="position" class="form-select" @bind-Value="company.CompanyPosition">@foreach (var item in Enum.GetValues<CompanyPosition>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></div>
-                <div><label class="form-label" for="location">Location</label><InputText id="location" class="form-control" @bind-Value="company.CompanyLocation" placeholder="City or remote" /></div>
-                <div><label class="form-label" for="status">Status</label><InputSelect id="status" class="form-select" @bind-Value="company.CompanyStatus">@foreach (var item in Enum.GetValues<CompanyStatus>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></div>
-                <div><label class="form-label" for="applied">Applied date</label><InputDate id="applied" class="form-control" @bind-Value="company.CompanyAppliedDate" /></div>
+                <div class="field-wide"><label class="form-label" for="company-name">Company name</label>
+                    <InputText id="company-name" class="form-control" @bind-Value="company.CompanyName"
+                               placeholder="e.g. Acme Studio"/>
+                </div>
+                <div><label class="form-label" for="position">Position</label>
+                    <InputSelect id="position" class="form-select"
+                                 @bind-Value="company.CompanyPosition">@foreach (var item in Enum.GetValues<CompanyPosition>())
+                        {
+                            <option value="@item">@Format(item.ToString())</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div><label class="form-label" for="location">Location</label>
+                    <InputText id="location" class="form-control" @bind-Value="company.CompanyLocation"
+                               placeholder="City or remote"/>
+                </div>
+                <div><label class="form-label" for="status">Status</label>
+                    <InputSelect id="status" class="form-select"
+                                 @bind-Value="company.CompanyStatus">@foreach (var item in Enum.GetValues<CompanyStatus>())
+                        {
+                            <option value="@item">@Format(item.ToString())</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div><label class="form-label" for="applied">Applied date</label>
+                    <InputDate id="applied" class="form-control" @bind-Value="company.CompanyAppliedDate"/>
+                </div>
             </div>
         </div>
         <div class="form-section">
-            <div class="section-heading"><span>02</span><div><h2>Links & contact</h2><p>Keep the people and source material close.</p></div></div>
+            <div class="section-heading"><span>02</span>
+                <div><h2>Links & contact</h2>
+                    <p>Keep the people and source material close.</p></div>
+            </div>
             <div class="form-grid">
-                <div><label class="form-label" for="contact">Contact person</label><InputText id="contact" class="form-control" @bind-Value="company.CompanyContactPerson" placeholder="Name or recruiter" /></div>
-                <div><label class="form-label" for="website">Company website</label><InputText id="website" class="form-control" @bind-Value="company.CompanyWebsite" placeholder="https://" /></div>
-                <div class="field-wide"><label class="form-label" for="job-link">Job posting</label><InputText id="job-link" class="form-control" @bind-Value="company.CompanyJobLink" placeholder="https://" /></div>
+                <div><label class="form-label" for="contact">Contact person</label>
+                    <InputText id="contact" class="form-control" @bind-Value="company.CompanyContactPerson"
+                               placeholder="Name or recruiter"/>
+                </div>
+                <div><label class="form-label" for="website">Company website</label>
+                    <InputText id="website" class="form-control" @bind-Value="company.CompanyWebsite"
+                               placeholder="https://"/>
+                </div>
+                <div class="field-wide"><label class="form-label" for="job-link">Job posting</label>
+                    <InputText id="job-link" class="form-control" @bind-Value="company.CompanyJobLink"
+                               placeholder="https://"/>
+                </div>
             </div>
         </div>
         <div class="form-section">
-            <div class="section-heading"><span>03</span><div><h2>Follow-up</h2><p>Set a clear next action and save context.</p></div></div>
+            <div class="section-heading"><span>03</span>
+                <div><h2>Follow-up</h2>
+                    <p>Set a clear next action and save context.</p></div>
+            </div>
             <div class="form-grid">
-                <div><label class="form-label" for="top-mind">Follow-up date</label><InputDate id="top-mind" class="form-control" @bind-Value="company.CompanyTopOfMind" /></div>
-                <div><label class="form-label" for="call">Call status</label><InputSelect id="call" class="form-select" @bind-Value="company.CompanyCallOrNot">@foreach (var item in Enum.GetValues<CompanyCallOrNot>()) { <option value="@item">@Format(item.ToString())</option> }</InputSelect></div>
-                <div class="field-wide"><label class="form-label" for="notes">Notes</label><InputTextArea id="notes" class="form-control" @bind-Value="company.CompanyMinorNotes" placeholder="Context, next steps, impressions…" /></div>
+                <div><label class="form-label" for="top-mind">Follow-up date</label>
+                    <InputDate id="top-mind" class="form-control" @bind-Value="company.CompanyTopOfMind"/>
+                </div>
+                <div><label class="form-label" for="call">Call status</label>
+                    <InputSelect id="call" class="form-select"
+                                 @bind-Value="company.CompanyCallOrNot">@foreach (var item in Enum.GetValues<CompanyCallOrNot>())
+                        {
+                            <option value="@item">@Format(item.ToString())</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="field-wide"><label class="form-label" for="notes">Notes</label>
+                    <InputTextArea id="notes" class="form-control" @bind-Value="company.CompanyMinorNotes"
+                                   placeholder="Context, next steps, impressions…"/>
+                </div>
             </div>
         </div>
-        <footer class="form-actions"><span>All information stays in your private workspace.</span><div><a class="btn btn-ghost" href="ShowAllCompanies">Cancel</a><button class="btn btn-primary" type="submit" disabled="@isSaving">@(isSaving ? "Saving…" : "Save company")</button></div></footer>
+        <footer class="form-actions"><span>All information stays in your private workspace.</span>
+            <div><a class="btn btn-ghost" href="ShowAllCompanies">Cancel</a>
+                <button class="btn btn-primary" type="submit"
+                        disabled="@isSaving">@(isSaving ? "Saving…" : "Save company")</button>
+            </div>
+        </footer>
     </EditForm>
 </section>
-
-<style>
-    .company-form { overflow: hidden; }
-    .form-section { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; padding: 2rem; border-bottom: 1px solid var(--border); }
-    .section-heading { display: flex; gap: .85rem; }
-    .section-heading > span { color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: .68rem; padding-top: .25rem; }
-    .section-heading h2 { margin: 0; font-size: 1rem; }
-    .section-heading p { margin: .35rem 0 0; color: var(--muted-foreground); font-size: .76rem; line-height: 1.5; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .field-wide { grid-column: 1 / -1; }
-    .form-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.25rem 2rem; background: rgba(10,10,15,.28); }
-    .form-actions > span { color: var(--muted-foreground); font-size: .72rem; }
-    .form-actions > div { display: flex; gap: .5rem; }
-    @@media (max-width: 850px) { .form-section { grid-template-columns: 1fr; } }
-    @@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .field-wide { grid-column: auto; } .form-actions { align-items: stretch; flex-direction: column; } .form-actions > div { flex-direction: column-reverse; } }
-</style>
 
 @code {
     private Company company = new();
     private bool isSaving;
-    private async Task CreateCompany() { isSaving = true; await CompanyService.AddCompany(company); Navigation.NavigateTo("ShowAllCompanies"); }
+
+    private async Task CreateCompany()
+    {
+        isSaving = true;
+        await CompanyService.AddCompany(company);
+        Navigation.NavigateTo("ShowAllCompanies");
+    }
+
     private static string Format(string value) => System.Text.RegularExpressions.Regex.Replace(value, "([a-z])([A-Z])", "$1 $2");
 }
